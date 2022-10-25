@@ -358,6 +358,7 @@
     "metro-react-native-babel-preset": "0.72.3",
     "octonode": "0.10.2",
     "patch-package": "^6.2.2",
+    "polyfill-crypto.getrandomvalues": "^1.0.0",
     "prettier": "^2.2.1",
     "react-dom": "16.8.4",
     "react-native-cli": "2.0.1",
