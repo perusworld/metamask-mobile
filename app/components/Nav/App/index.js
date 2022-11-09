@@ -162,7 +162,6 @@ const App = ({ selectedAddress, userLoggedIn }) => {
   const [navigator, setNavigator] = useState(undefined);
   const prevNavigator = useRef(navigator);
   const [route, setRoute] = useState();
-  const [authCancelled, setAuthCancelled] = useState(false);
   const [animationPlayed, setAnimationPlayed] = useState(false);
   const { colors } = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -182,7 +181,6 @@ const App = ({ selectedAddress, userLoggedIn }) => {
         }
 
         //Cancel auth if the existing user has not been set
-        if (existingUser === null) setAuthCancelled(true);
       } catch (error) {
         await Authentication.logout(false);
         trackErrorAsAnalytics(
@@ -190,7 +188,6 @@ const App = ({ selectedAddress, userLoggedIn }) => {
           error?.message,
           `Unlock attempts: 1`,
         );
-        setAuthCancelled(true);
       } finally {
         authOnLoadAuthLock.current = true;
       }
@@ -286,13 +283,12 @@ const App = ({ selectedAddress, userLoggedIn }) => {
       setRoute(route);
     }
     checkExisting();
-  }, [userLoggedIn, authCancelled]);
+  }, [userLoggedIn]);
 
   useEffect(() => {
     async function startApp() {
       const existingUser = await AsyncStorage.getItem(EXISTING_USER);
       try {
-        await Authentication.logout(false);
         const currentVersion = getVersion();
         const savedVersion = await AsyncStorage.getItem(CURRENT_APP_VERSION);
         if (currentVersion !== savedVersion) {
@@ -414,20 +410,19 @@ const App = ({ selectedAddress, userLoggedIn }) => {
             }}
           >
             <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="OnboardingRootNav"
               component={OnboardingRootNav}
               options={{ headerShown: false }}
             />
-            {userLoggedIn ? (
+            {userLoggedIn && (
               <Stack.Screen
                 name="HomeNav"
                 component={Main}
-                options={{ headerShown: false }}
-              />
-            ) : (
-              <Stack.Screen
-                name="Login"
-                component={Login}
                 options={{ headerShown: false }}
               />
             )}
