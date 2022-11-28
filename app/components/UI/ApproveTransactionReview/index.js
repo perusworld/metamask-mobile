@@ -59,6 +59,7 @@ import formatNumber from '../../../util/formatNumber';
 import { allowedToBuy } from '../FiatOrders';
 import { MM_SDK_REMOTE_ORIGIN } from '../../../core/SDKConnect';
 import createStyles from './styles';
+import ApproveTransactionHeader from '../ApproveTransactionHeader';
 
 const { hexToBN } = util;
 
@@ -588,13 +589,10 @@ class ApproveTransactionReview extends PureComponent {
     return (
       <>
         <View style={styles.section} testID={'approve-modal-test-id'}>
-          <TransactionHeader
-            currentPageInformation={{
-              origin,
-              spenderAddress,
-              title: host,
-              url: activeTabUrl,
-            }}
+          <ApproveTransactionHeader
+            origin={origin}
+            spenderAddress={spenderAddress}
+            url={activeTabUrl}
           />
           <Text reset style={styles.title} testID={'allow-access'}>
             {strings(
@@ -672,7 +670,6 @@ class ApproveTransactionReview extends PureComponent {
               confirmDisabled={Boolean(gasError) || transactionConfirmed}
             >
               <View style={styles.paddingHorizontal}>
-                <AccountInfoCard />
                 <View style={styles.section}>
                   <TransactionReview
                     gasSelected={gasSelected}

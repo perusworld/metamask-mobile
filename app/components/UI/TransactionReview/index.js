@@ -32,7 +32,6 @@ import TransactionReviewData from './TransactionReviewData';
 import Analytics from '../../../core/Analytics/Analytics';
 import { ANALYTICS_EVENT_OPTS } from '../../../util/analytics';
 import TransactionHeader from '../TransactionHeader';
-import AccountInfoCard from '../AccountInfoCard';
 import ActionView from '../ActionView';
 import { WALLET_CONNECT_ORIGIN } from '../../../util/walletconnect';
 import { getTokenList } from '../../../reducers/tokens';
@@ -41,6 +40,7 @@ import withQRHardwareAwareness from '../QRHardware/withQRHardwareAwareness';
 import QRSigningDetails from '../QRHardware/QRSigningDetails';
 import { withNavigation } from '@react-navigation/compat';
 import { MM_SDK_REMOTE_ORIGIN } from '../../../core/SDKConnect';
+import ApproveTransactionHeader from '../ApproveTransactionHeader';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -58,10 +58,10 @@ const createStyles = (colors) =>
       ...fontStyles.bold,
     },
     actionViewWrapper: {
-      height: Device.isMediumDevice() ? 230 : 415,
+      height: Device.isMediumDevice() ? 105 : 290,
     },
     actionViewChildren: {
-      height: 330,
+      height: 200,
     },
     accountTransactionWrapper: {
       flex: 1,
@@ -402,6 +402,8 @@ class TransactionReview extends PureComponent {
       approveTransaction,
     } = this.state;
     const currentPageInformation = { url: this.getUrlFromBrowser() };
+    const { currentEnsName, spenderAddress, origin, url } =
+      currentPageInformation;
     const styles = this.getStyles();
 
     return (
@@ -412,7 +414,12 @@ class TransactionReview extends PureComponent {
             -Device.getDeviceWidth(),
           ])}
         >
-          <TransactionHeader currentPageInformation={currentPageInformation} />
+          <ApproveTransactionHeader
+            currentEnsName={currentEnsName}
+            spenderAddress={spenderAddress}
+            origin={origin}
+            url={url}
+          />
           <TransactionReviewSummary
             actionKey={actionKey}
             assetAmount={assetAmount}
@@ -439,9 +446,6 @@ class TransactionReview extends PureComponent {
                     style={styles.accountTransactionWrapper}
                     onStartShouldSetResponder={() => true}
                   >
-                    <View style={styles.accountInfoCardWrapper}>
-                      <AccountInfoCard />
-                    </View>
                     <TransactionReviewInformation
                       navigation={navigation}
                       error={error}
