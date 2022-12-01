@@ -2219,5 +2219,14 @@
     "description": "Automatically checking for updates may expose your IP address to GitHub servers. This only indicates that your IP address is using MetaMask. No other information or account addresses are exposed.",
     "primary_action": "Enable automatic security checks",
     "secondary_action": "No thanks"
+  },
+  "confirmation": {
+    "token_allowance": {
+      "verify_contract_details": "Verify contract details",
+      "contract_requesting_title": "Contract requesting spending cap",
+      "token_contract": "Token contract",
+      "protect_from_scams": "To protect yourself against scammers, take a moment to verify contract details.",
+      "learn_to_verify": "Learn how to verify contract details"
+    }
   }
 }
